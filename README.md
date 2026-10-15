@@ -1,30 +1,34 @@
-# Polygon Sound Lab — iPad test
+# Polygon Sound Lab — iPad browser test
 
-[Open latest Sound Lab](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
+[Open the latest Sound Lab](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
 
-Current version: **v0.1.3** (experimental, not accepted on physical iPad or integrated with Polygon SEQ).
+**Current version: v0.1.4 — isolated experimental prototype, not part of the accepted Polygon drum sequencer.**
 
-## Noise improvements
+## Noise channel — listening test
 
-- Independent high-pass (HPF) and low-pass (LPF) controls.
-- Optional band-pass (BPF): tick **Enable band-pass**, then change its centre frequency and bandwidth in octaves.
-- Removed redundant Tone from Noise. Tone remains available to the Sub Pulse, Metallic and Organic voices.
-- Unpitched, seeded noise only; no tonal oscillator in the Noise path.
-- Existing Noise preset JSON remains importable; the old pitch/tone keys are retained for format compatibility, but no longer modify Noise audio.
-- This intentionally changes how some existing Noise presets sound.
+Choose the Noise voice and select **Noise colour**:
 
-Presets are stored in your browser locally. Export JSON backups; clearing site data may remove locally saved presets. WAV download and iPad Safari persistence require on-device tests.
+- **White** — even-spectrum static and sharp hiss.
+- **Pink** — approximately 3 dB less energy per higher octave, softer and more balanced.
+- **Brown** — approximately 6 dB less energy per higher octave, deep rumbles.
 
-The Band-pass filter is serial and optional: the sound goes through HPF, LPF, then (when enabled) BPF. Filters can produce very low volume if frequency bands do not overlap.
+The three colours use seeded, deterministic noise generators. **No pitched oscillator** has been added. The existing High-pass, Low-pass, optional Band-pass, Texture, Attack, Decay and Level controls remain available. Tone stays hidden for Noise and stays active on the other three synth voices.
 
-Technical tests (Chromium): **112/112 PASS**; sub/metal/organic PCM byte identical to v0.1.2. Audio needs human listening evaluation.
+An older Noise preset without the new `noiseColour` key defaults to White. Imported presets still work. Custom colour choice is preserved in saved JSON presets and in WAV rendering. On changing colour, you must save or update the preset if you want to keep your change.
 
-## Previous revisions
+Existing six factory Noise sounds retain their original output when White is selected. The Sub Pulse, Metallic and Organic voices render unchanged.
 
-- [v0.1.2 (HPF/LPF)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.2/)
-- [v0.1.1 (remove unwanted Noise pitches)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
+**Automated Chromium testing:** 154/154 checks passed, including measured frequency spectra, DSP determinism, clipping, old preset import, JSON/WAV export, and 430px layout. Human iPad Safari listening and file persistence acceptance are outstanding.
+
+**This is the final planned Noise development revision until listening review.** Do not add further Noise features or integrate it with the main drum sequencer until accepted.
+
+## Persistence and older versions
+
+Custom presets are stored in your browser where permitted. Back up your library as JSON; browser data removal can erase saved sounds. Some iPad browsers may restrict WAV/JSON downloads.
+
+- [v0.1.3 (band-pass)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.3/)
+- [v0.1.2 (high-pass/low-pass)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.2/)
+- [v0.1.1 (remove unwanted tonal oscillators)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
 - [v0.1 initial](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
 
-Current HTML SHA-256 `ca78baeeb60fd4ad48ac2d9c5b034ba344f68c43e4f354eaefbc51e274669060`.
-
-This repository is a separate test deployment. No change to the accepted Polygon drum sequencer or melodic prototypes.
+Current HTML SHA-256: `03aa96ce51db659e4439c959645867f7b7d3216dda9134529caef9e46205ade6`.
