@@ -2,7 +2,7 @@
 
 [Open latest Sound Lab](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
 
-**Current development candidate: v0.1.7 — Noise Texture repair.** Windows Chrome and Edge automated PASS; renewed human Noise listening acceptance pending. Main Polygon percussion sequencer is unchanged.
+**Current version: v0.1.7 — Noise Texture listening PASS, accepted and frozen.** Windows Chrome and Edge automated tests passed. Full Windows Sound Lab usability acceptance remains outstanding. The main Polygon percussion sequencer is unchanged.
 
 ## Noise Texture correction
 
@@ -17,7 +17,7 @@ Across six Noise factory presets and three colours, Texture 0% versus 100% wavef
 - All Sub Pulse, Metallic, Organic factory PCM and WAV renders remain unchanged; Noise at Texture 0% remains unchanged.
 - Sound Lab v0.1.6 usability repairs (safe mixer, unsaved edit guard, draft names and damaged library recovery) remain intact.
 
-**Acceptance:** Noise v0.1.5 had an earlier listening PASS. The new Texture DSP needs renewed subjective assessment before v0.1.7 can be frozen. The three other engines' previous acceptance remains valid. Full Sound Lab Windows acceptance and Polygon integration remain pending.
+**Acceptance:** The user explicitly approved v0.1.7 Noise Texture: "Pass, it's dirty, I like it." Preserve that pronounced dirty/granular character. See [Noise v0.1.7 acceptance](NOISE-v0.1.7-ACCEPTANCE.md). Metallic, Sub Pulse and Organic retain their earlier accepted audio. Full Sound Lab Windows usability acceptance and Polygon integration remain pending.
 
 ## Previous revisions
 
