@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Polygon Sound Lab v0.1 — Experimental Four-Voice Percussion Synthesizer</title>
+<title>Polygon Sound Lab v0.1.1 — Experimental Four-Voice Percussion Synthesizer</title>
 <style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#10141d;color:#f0f4fa;--panel:#1b2230;--line:#354154;--muted:#a7b5c8;--hi:#c1e0ff}
 *{box-sizing:border-box}body{margin:0;min-width:300px;line-height:1.4}button,input,select{font:inherit}button{cursor:pointer;color:inherit;background:#26374a;border:1px solid #50637d;border-radius:9px;padding:10px 14px;font-weight:600}button:hover:not(:disabled){background:#34506a}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #82b9fc;outline-offset:2px}button:disabled{opacity:.43;cursor:not-allowed}input,select{background:#101a29;border:1px solid #54677e;color:#f3f8ff;border-radius:7px;padding:9px;max-width:100%}input[type=range]{padding:0;width:100%;accent-color:#9ecefb;cursor:pointer}input[type=text]{width:100%}select{width:100%}main{max-width:1420px;margin:0 auto;padding:22px 26px 50px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:start;gap:16px;margin-bottom:20px}h1{font-size:clamp(1.6rem,2.5vw,2.2rem);margin:0;letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}.subtitle{color:var(--muted);margin:6px 0 0;max-width:900px}.tag{display:inline-block;background:#22354b;color:#b5daff;border:1px solid #557999;border-radius:99px;padding:5px 12px;font-size:.75rem;font-weight:700;letter-spacing:.04em}.intro{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.voices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}.voice{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px;min-width:0}.voice.active{border-color:#9abfff;background:#21314a}.voice-head{display:flex;align-items:center;gap:10px}.mark{width:12px;height:38px;border-radius:8px;flex-shrink:0}.voice .vname{font-size:1.06rem;font-weight:750;margin:0}.voice .vlabel{color:var(--muted);font-size:.85rem;margin:2px 0 0}.voice .assignment{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d1deec;font-size:.9rem;margin:14px 0}.voice-actions{display:flex;gap:6px}.voice-actions button{flex:1;padding:10px 5px;min-width:0}.edit-btn{background:#31445f}.pad-btn{background:#1c5a68;border-color:#4290a0}.top-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}.grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(330px,.9fr);gap:16px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:19px;min-width:0}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.muted,.hint{color:var(--muted);font-size:.88rem}.hint{margin:10px 0 0}.controls{display:grid;grid-template-columns:1fr 1fr;column-gap:23px;row-gap:15px;margin:16px 0 18px}.control label{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:.9rem;font-weight:600}.control output{font-variant-numeric:tabular-nums;color:#cae1fa}.osc{background:#0d1622;border:1px solid #354b62;width:100%;border-radius:9px;height:128px;display:block}.preview-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.primary{background:#397c77;border-color:#5cafa7}.primary:hover:not(:disabled){background:#46988d}.field{margin:0 0 13px}.field label{display:block;font-size:.85rem;font-weight:650;margin:0 0 6px}.library-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.library-actions button{width:100%}.sep{height:1px;background:var(--line);margin:17px 0}.state{border-radius:9px;padding:11px 13px;background:#14253a;border:1px solid #43627b;font-size:.86rem;color:#d6ebff;margin-top:15px}.state.warn{border-color:#ab8150;background:#393024;color:#ffe0aa}.status{font-size:.86rem;min-height:22px;color:#c9e5d5}.footer{margin-top:24px;color:var(--muted);font-size:.82rem;line-height:1.65}.footer strong{color:#f5f6fb}.compact{font-size:.82rem;color:var(--muted)}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}code{background:#101a26;padding:1px 5px;border-radius:4px} .ctrl-inline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}@media(max-width:900px){main{padding:18px 15px}.voices{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}@media(max-width:520px){.voices{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.panel{padding:14px}.library-actions{grid-template-columns:1fr}}
@@ -13,7 +13,7 @@
 <body>
 <main>
 <header>
-  <div><h1>Polygon <span style="color:#94ceeb">Sound Lab</span> <span style="font-size:.75rem;vertical-align:middle;color:#a5bfce">v0.1</span></h1>
+  <div><h1>Polygon <span style="color:#94ceeb">Sound Lab</span> <span style="font-size:.75rem;vertical-align:middle;color:#a5bfce">v0.1.1</span></h1>
   <p class="subtitle">Four independent experimental percussion voices. Design a sound, save its editable preset, or export a WAV to use anywhere.</p></div>
   <div class="intro"><span class="tag">OFFLINE</span><span class="tag">ISOLATED PROTOTYPE</span></div>
 </header>
@@ -27,7 +27,7 @@
   <div class="panelhead"><div><h2 id="editor-title">Voice editor</h2><div class="muted" id="engineSummary"></div></div><span class="tag" id="engineBadge">VOICE 1</span></div>
   <canvas class="osc" id="waveCanvas" width="940" height="220" aria-label="Preview of generated audio waveform" role="img"></canvas>
   <div class="controls" id="controls">
-    <div class="control"><label for="pitch">Pitch <output id="pitchOut"></output></label><input type="range" id="pitch" min="35" max="880" step="1"></div>
+    <div class="control"><label for="pitch"><span id="pitchLabel">Pitch</span> <output id="pitchOut"></output></label><input type="range" id="pitch" min="35" max="880" step="1"></div>
     <div class="control"><label for="decay">Decay <output id="decayOut"></output></label><input type="range" id="decay" min="0.08" max="2.4" step="0.01"></div>
     <div class="control"><label for="tone">Tone <output id="toneOut"></output></label><input type="range" id="tone" min="0" max="100" step="1"></div>
     <div class="control"><label for="texture">Texture <output id="textureOut"></output></label><input type="range" id="texture" min="0" max="100" step="1"></div>
@@ -71,7 +71,7 @@
   const ENGINES={
     sub:{name:'Sub Pulse',color:'#7daaf5',summary:'Low-frequency impacts, bent bass pulses and vibrating subs.',hint:'Tone adds harmonics; Texture increases pitch bend and the short transient.'},
     metal:{name:'Metallic',color:'#ebbd83',summary:'Unstable bells, clangs and machine-like FM strikes.',hint:'Tone changes inharmonic ratios; Texture increases frequency modulation.'},
-    noise:{name:'Noise',color:'#9ed8b2',summary:'Static bursts, dust, cracks and filtered atmospheric attacks.',hint:'Tone shifts filter colour; Texture mixes hiss, grit and tonal ring.'},
+    noise:{name:'Noise',color:'#9ed8b2',summary:'Static bursts, dust, cracks and filtered atmospheric attacks.',hint:'Filter offset and Tone alter noise colour; Texture adds random grit and crackle. No pitched oscillator.'},
     organic:{name:'Organic',color:'#c5a9f0',summary:'Hollow wood, wet membranes and elastic resonances.',hint:'Tone changes resonant modes; Texture adds motion and grain.'}
   };
   const KEYS=['pitch','decay','tone','texture','attack','level'];
@@ -129,9 +129,9 @@
         const raw=rnd(), cutoff=clamp(180+tone*12900+pitch*.8,80,18000);
         const a=1-Math.exp(-2*Math.PI*cutoff/SR);smooth+=a*(raw-smooth);
         const high=raw-smooth, blend=(tone*.78+.08);
-        const grit=texture*(rnd()*.24+Math.sin(2*Math.PI*pitch*t)*.27);
+        const grit=texture*(rnd()*.24+rnd()*.27);
         s=(smooth*(1-blend)+high*blend)*1.3+grit;
-        s+=.15*(1-texture)*Math.sin(2*Math.PI*pitch*t)*Math.exp(-t*14);
+        s+=.15*(1-texture)*rnd()*Math.exp(-t*14);
       }else{
         const wobble=texture*.032*Math.sin(2*Math.PI*(2.2+tone*6)*t)*Math.exp(-t*2);
         const x=2*Math.PI*pitch*(t+wobble/(Math.max(1,pitch)));
@@ -229,7 +229,7 @@
   function chooseVoice(index){active=index;selectedId=sourceIds[active];
     const v=slots[active];$('editor-title').textContent=`Voice ${active+1} — ${ENGINES[v.engine].name}`;$('engineBadge').textContent=`VOICE ${active+1}`;
     $('engineSummary').textContent=ENGINES[v.engine].summary;$('paramHint').textContent=ENGINES[v.engine].hint;
-    $('soundName').value=v.name;displayValues();selectPresetOptions();drawWave();renderCards();
+    $('soundName').value=v.name;$('pitchLabel').textContent=v.engine==='noise'?'Filter offset':'Pitch';displayValues();selectPresetOptions();drawWave();renderCards();
   }
   function onControl(k){slots[active].params[k]=Number($(k).value);dirty[active]=true;displayValues();selectPresetOptions();drawWave();}
   for(const k of KEYS)$(k).addEventListener('input',()=>onControl(k));
