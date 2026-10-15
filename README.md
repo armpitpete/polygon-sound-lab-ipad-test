@@ -1,32 +1,30 @@
-# Polygon Sound Lab — iPad Safari test
+# Polygon Sound Lab — iPad Safari browser test
 
-[Open Sound Lab (latest)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
+**Current experimental version: v0.1.2 (Noise HPF/LPF)**
 
-**Current prototype: v0.1.1** — isolated, browser-based four-voice experimental percussion synthesis. This is not an accepted Polygon SEQ release.
+[Open the test instrument](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
 
-## v0.1.1 Noise repair (15 October 2026)
+## What changed in v0.1.2
 
-Following iPad listening feedback, the Noise voice has been corrected to produce stochastic noise only. Two accidental or unwanted pitched sine-wave components were present in v0.1:
-- A sine tone in the grit component.
-- A second sine tone in the low-texture transient.
+- The Noise voice now has **High-pass** and **Low-pass** cutoff controls (20 Hz to 18 kHz).
+- The confusing **Filter offset** control has been removed from the Noise editor. Its old saved `pitch` value is retained internally for loading older presets, but no longer affects Noise audio.
+- HPF cuts low-frequency noise; LPF cuts high-frequency noise. Both filters act on the entire Noise signal.
+- The two filters can cross. This can make the sound extremely quiet, intentionally; the UI warns when they cross.
+- Filtering uses two cascaded one-pole stages for each band edge (about 12 dB/octave).
+- Stored `hpfHz` and `lpfHz` are part of new custom Noise presets; older presets import with 25 Hz HPF and 14 kHz LPF defaults.
+- Sub Pulse, Metallic, and Organic PCM remains unchanged compared with v0.1.1.
 
-Both were replaced with seeded random noise. The Noise pitch slider now reads **Filter offset**; the saved JSON parameter key remains 'pitch' for compatibility. The other three voices' PCM outputs are unchanged, sample for sample.
+## Evidence and scope
 
-Technical validation in automated Chromium: 46/46 existing checks PASS; 21/21 repair-specific checks PASS. All six Noise presets have much lower coherent tone peaks in numerical spectrum checks. Actual iPad listening and Safari export/storage behaviour still require device acceptance.
+**76/76 automated tests PASS** (46 regression, 30 targeted HPF/LPF tests); tested on desktop Chromium. Spectral testing measured independent high/low frequency attenuation; WAV export and preset round-trips passed. Real iPad Safari audio, downloads, and storage persistence **not yet accepted**.
 
-**Old custom Noise presets** are still loadable, but their sound changes in v0.1.1 because the oscillator is removed. Back up your library JSON before experimenting.
+This is a public, isolated experimental prototype, not a release of the main Polygon SEQ drum sequencer. No other project or sequencer code is modified.
 
-### Archived original
+The website uses browser-local storage where available. **Export a JSON library backup** for custom sounds, especially before clearing Safari site data.
 
-[v0.1 original HTML](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
+## Previous releases
 
-## Use and limitations
+- [v0.1.1 — pitched-noise repair](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
+- [v0.1 — original](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
 
-1. Open the site in Safari on iPad and press Play on the Noise voice.
-2. Move Filter offset, Tone and Texture; compare all six Noise presets.
-3. Save a sound and export WAV; test Safari download to Files.
-4. Back up custom presets as JSON; clearing browser site data can remove saved presets.
-
-Sound synthesis executes entirely in the browser, with no external runtime libraries. No changes have been made to the existing Polygon percussion sequencer or melodic experiment.
-
-Verified deployed v0.1.1 SHA-256 expected: `56ef3ef497444da936ef2ffb25918b84245f1f7afcb3990b3adfe34e32b3a0fe`.
+Exact v0.1.2 HTML SHA-256: `625a1bee89500d884cdb4983b2c50bced7703db6131fdbbc09e30d885d99e49c`.
