@@ -2,33 +2,34 @@
 
 [Open the latest Sound Lab](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
 
-**Current version: v0.1.4 — isolated experimental prototype, not part of the accepted Polygon drum sequencer.**
+**Current version: v0.1.5 — isolated technical repair, awaiting real iPad listening acceptance.**
 
-## Noise channel — listening test
+## Pink / Brown sound correction
 
-Choose the Noise voice and select **Noise colour**:
+Listening feedback found Pink and Brown too similar in v0.1.4. That version mixed a separate bright white-noise grit signal **after** colour filtering, which masked the distinction.
 
-- **White** — even-spectrum static and sharp hiss.
-- **Pink** — approximately 3 dB less energy per higher octave, softer and more balanced.
-- **Brown** — approximately 6 dB less energy per higher octave, deep rumbles.
+In **v0.1.5**, the complete noise excitation, including Texture/grit, is coloured before the existing high-pass, low-pass and optional band-pass filters.
 
-The three colours use seeded, deterministic noise generators. **No pitched oscillator** has been added. The existing High-pass, Low-pass, optional Band-pass, Texture, Attack, Decay and Level controls remain available. Tone stays hidden for Noise and stays active on the other three synth voices.
+- White source and its factory presets: unchanged PCM output.
+- Sub Pulse, Metallic and Organic: unchanged PCM output.
+- Pink: more upper-frequency content than Brown.
+- Brown: much more bass-dominant, with reduced high-frequency hiss.
+- No pitched oscillator added, and no new controls.
 
-An older Noise preset without the new `noiseColour` key defaults to White. Imported presets still work. Custom colour choice is preserved in saved JSON presets and in WAV rendering. On changing colour, you must save or update the preset if you want to keep your change.
+**Validation:** 81/81 targeted DSP checks passed, and narrow-screen Chromium UI smoke test passed. Upper-frequency contrast between Pink/Brown rose from approximately 0.7–2.4 dB in v0.1.4 to approximately 5.2–6.1 dB over all six factory Noise presets.
 
-Existing six factory Noise sounds retain their original output when White is selected. The Sub Pulse, Metallic and Organic voices render unchanged.
+**Listening test:** Compare Pink and Brown using identical filter settings and Texture values. On the iPad, use headphones if possible because small speakers attenuate the bass that distinguishes Brown noise. If the sounds still feel too close, note the exact preset and listening equipment.
 
-**Automated Chromium testing:** 154/154 checks passed, including measured frequency spectra, DSP determinism, clipping, old preset import, JSON/WAV export, and 430px layout. Human iPad Safari listening and file persistence acceptance are outstanding.
+**Saved sounds:** Older preset JSON remains supported. Previously saved Pink and Brown sounds will render differently; export your preset bank JSON backup first. Browser local storage can be cleared by Safari.
 
-**This is the final planned Noise development revision until listening review.** Do not add further Noise features or integrate it with the main drum sequencer until accepted.
+**Noise development remains on hold pending listening acceptance.** Do not change the accepted Polygon percussion sequencer to integrate this experimental prototype.
 
-## Persistence and older versions
+## Previous versions
 
-Custom presets are stored in your browser where permitted. Back up your library as JSON; browser data removal can erase saved sounds. Some iPad browsers may restrict WAV/JSON downloads.
+- [v0.1.4 — first White/Pink/Brown addition](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.4/)
+- [v0.1.3 — band-pass](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.3/)
+- [v0.1.2 — high-pass and low-pass](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.2/)
+- [v0.1.1 — remove unwanted pitched oscillators](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
+- [v0.1 — original](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
 
-- [v0.1.3 (band-pass)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.3/)
-- [v0.1.2 (high-pass/low-pass)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.2/)
-- [v0.1.1 (remove unwanted tonal oscillators)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
-- [v0.1 initial](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
-
-Current HTML SHA-256: `03aa96ce51db659e4439c959645867f7b7d3216dda9134529caef9e46205ade6`.
+v0.1.5 SHA-256: `5db837ad358ec7c8d4bc586db52c5ec66470ae5a25204f9fd8c620f31fd2c43b`.
