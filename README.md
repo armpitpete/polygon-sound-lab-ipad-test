@@ -1,30 +1,30 @@
-# Polygon Sound Lab — iPad Safari browser test
+# Polygon Sound Lab — iPad test
 
-**Current experimental version: v0.1.2 (Noise HPF/LPF)**
+[Open latest Sound Lab](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
 
-[Open the test instrument](https://armpitpete.github.io/polygon-sound-lab-ipad-test/)
+Current version: **v0.1.3** (experimental, not accepted on physical iPad or integrated with Polygon SEQ).
 
-## What changed in v0.1.2
+## Noise improvements
 
-- The Noise voice now has **High-pass** and **Low-pass** cutoff controls (20 Hz to 18 kHz).
-- The confusing **Filter offset** control has been removed from the Noise editor. Its old saved `pitch` value is retained internally for loading older presets, but no longer affects Noise audio.
-- HPF cuts low-frequency noise; LPF cuts high-frequency noise. Both filters act on the entire Noise signal.
-- The two filters can cross. This can make the sound extremely quiet, intentionally; the UI warns when they cross.
-- Filtering uses two cascaded one-pole stages for each band edge (about 12 dB/octave).
-- Stored `hpfHz` and `lpfHz` are part of new custom Noise presets; older presets import with 25 Hz HPF and 14 kHz LPF defaults.
-- Sub Pulse, Metallic, and Organic PCM remains unchanged compared with v0.1.1.
+- Independent high-pass (HPF) and low-pass (LPF) controls.
+- Optional band-pass (BPF): tick **Enable band-pass**, then change its centre frequency and bandwidth in octaves.
+- Removed redundant Tone from Noise. Tone remains available to the Sub Pulse, Metallic and Organic voices.
+- Unpitched, seeded noise only; no tonal oscillator in the Noise path.
+- Existing Noise preset JSON remains importable; the old pitch/tone keys are retained for format compatibility, but no longer modify Noise audio.
+- This intentionally changes how some existing Noise presets sound.
 
-## Evidence and scope
+Presets are stored in your browser locally. Export JSON backups; clearing site data may remove locally saved presets. WAV download and iPad Safari persistence require on-device tests.
 
-**76/76 automated tests PASS** (46 regression, 30 targeted HPF/LPF tests); tested on desktop Chromium. Spectral testing measured independent high/low frequency attenuation; WAV export and preset round-trips passed. Real iPad Safari audio, downloads, and storage persistence **not yet accepted**.
+The Band-pass filter is serial and optional: the sound goes through HPF, LPF, then (when enabled) BPF. Filters can produce very low volume if frequency bands do not overlap.
 
-This is a public, isolated experimental prototype, not a release of the main Polygon SEQ drum sequencer. No other project or sequencer code is modified.
+Technical tests (Chromium): **112/112 PASS**; sub/metal/organic PCM byte identical to v0.1.2. Audio needs human listening evaluation.
 
-The website uses browser-local storage where available. **Export a JSON library backup** for custom sounds, especially before clearing Safari site data.
+## Previous revisions
 
-## Previous releases
+- [v0.1.2 (HPF/LPF)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.2/)
+- [v0.1.1 (remove unwanted Noise pitches)](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
+- [v0.1 initial](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
 
-- [v0.1.1 — pitched-noise repair](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1.1/)
-- [v0.1 — original](https://armpitpete.github.io/polygon-sound-lab-ipad-test/archive/v0.1/)
+Current HTML SHA-256 `ca78baeeb60fd4ad48ac2d9c5b034ba344f68c43e4f354eaefbc51e274669060`.
 
-Exact v0.1.2 HTML SHA-256: `625a1bee89500d884cdb4983b2c50bced7703db6131fdbbc09e30d885d99e49c`.
+This repository is a separate test deployment. No change to the accepted Polygon drum sequencer or melodic prototypes.

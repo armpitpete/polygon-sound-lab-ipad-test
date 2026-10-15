@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Polygon Sound Lab v0.1.2 — Experimental Four-Voice Percussion Synthesizer</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:#10141d;color:#f0f4fa;--panel:#1b2230;--line:#354154;--muted:#a7b5c8;--hi:#c1e0ff}
+*{box-sizing:border-box}body{margin:0;min-width:300px;line-height:1.4}button,input,select{font:inherit}button{cursor:pointer;color:inherit;background:#26374a;border:1px solid #50637d;border-radius:9px;padding:10px 14px;font-weight:600}button:hover:not(:disabled){background:#34506a}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #82b9fc;outline-offset:2px}button:disabled{opacity:.43;cursor:not-allowed}input,select{background:#101a29;border:1px solid #54677e;color:#f3f8ff;border-radius:7px;padding:9px;max-width:100%}input[type=range]{padding:0;width:100%;accent-color:#9ecefb;cursor:pointer}input[type=text]{width:100%}select{width:100%}main{max-width:1420px;margin:0 auto;padding:22px 26px 50px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:start;gap:16px;margin-bottom:20px}h1{font-size:clamp(1.6rem,2.5vw,2.2rem);margin:0;letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 13px}h3{font-size:1rem;margin:0 0 10px}.subtitle{color:var(--muted);margin:6px 0 0;max-width:900px}.tag{display:inline-block;background:#22354b;color:#b5daff;border:1px solid #557999;border-radius:99px;padding:5px 12px;font-size:.75rem;font-weight:700;letter-spacing:.04em}.intro{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.voices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}.voice{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px;min-width:0}.voice.active{border-color:#9abfff;background:#21314a}.voice-head{display:flex;align-items:center;gap:10px}.mark{width:12px;height:38px;border-radius:8px;flex-shrink:0}.voice .vname{font-size:1.06rem;font-weight:750;margin:0}.voice .vlabel{color:var(--muted);font-size:.85rem;margin:2px 0 0}.voice .assignment{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d1deec;font-size:.9rem;margin:14px 0}.voice-actions{display:flex;gap:6px}.voice-actions button{flex:1;padding:10px 5px;min-width:0}.edit-btn{background:#31445f}.pad-btn{background:#1c5a68;border-color:#4290a0}.top-actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}.grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(330px,.9fr);gap:16px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:19px;min-width:0}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.muted,.hint{color:var(--muted);font-size:.88rem}.hint{margin:10px 0 0}.controls{display:grid;grid-template-columns:1fr 1fr;column-gap:23px;row-gap:15px;margin:16px 0 18px}.control label{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:.9rem;font-weight:600}.control output{font-variant-numeric:tabular-nums;color:#cae1fa}.osc{background:#0d1622;border:1px solid #354b62;width:100%;border-radius:9px;height:128px;display:block}.preview-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.primary{background:#397c77;border-color:#5cafa7}.primary:hover:not(:disabled){background:#46988d}.field{margin:0 0 13px}.field label{display:block;font-size:.85rem;font-weight:650;margin:0 0 6px}.library-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.library-actions button{width:100%}.sep{height:1px;background:var(--line);margin:17px 0}.state{border-radius:9px;padding:11px 13px;background:#14253a;border:1px solid #43627b;font-size:.86rem;color:#d6ebff;margin-top:15px}.state.warn{border-color:#ab8150;background:#393024;color:#ffe0aa}.status{font-size:.86rem;min-height:22px;color:#c9e5d5}.footer{margin-top:24px;color:var(--muted);font-size:.82rem;line-height:1.65}.footer strong{color:#f5f6fb}.compact{font-size:.82rem;color:var(--muted)}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}code{background:#101a26;padding:1px 5px;border-radius:4px} .ctrl-inline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}@media(max-width:900px){main{padding:18px 15px}.voices{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}@media(max-width:520px){.voices{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.panel{padding:14px}.library-actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div><h1>Polygon <span style="color:#94ceeb">Sound Lab</span> <span style="font-size:.75rem;vertical-align:middle;color:#a5bfce">v0.1.2</span></h1>
+  <p class="subtitle">Four independent experimental percussion voices. Design a sound, save its editable preset, or export a WAV to use anywhere.</p></div>
+  <div class="intro"><span class="tag">OFFLINE</span><span class="tag">ISOLATED PROTOTYPE</span></div>
+</header>
+<section aria-labelledby="voices-title">
+  <div class="panelhead"><h2 id="voices-title">Four-voice kit</h2><span class="muted">Select Edit to adjust a voice. Play mixes independently.</span></div>
+  <div class="voices" id="voiceCards"></div>
+  <div class="top-actions"><div class="ctrl-inline"><button id="playAll" class="primary" type="button">▶ Play all four</button><button id="stopAll" type="button">■ Stop playback</button></div><span class="compact" id="audioStatus">Sound plays only when you press a Play button.</span></div>
+</section>
+<div class="grid">
+<section class="panel" aria-labelledby="editor-title">
+  <div class="panelhead"><div><h2 id="editor-title">Voice editor</h2><div class="muted" id="engineSummary"></div></div><span class="tag" id="engineBadge">VOICE 1</span></div>
+  <canvas class="osc" id="waveCanvas" width="940" height="220" aria-label="Preview of generated audio waveform" role="img"></canvas>
+  <div class="controls" id="controls">
+    <div class="control" id="pitchGroup"><label for="pitch">Pitch <output id="pitchOut"></output></label><input type="range" id="pitch" min="35" max="880" step="1"></div>
+    <div class="control hidden" id="noiseHpGroup"><label for="noiseHp">High-pass <output id="noiseHpOut"></output></label><input type="range" id="noiseHp" min="0" max="100" step="1" aria-label="Noise high-pass cutoff"></div>
+    <div class="control hidden" id="noiseLpGroup"><label for="noiseLp">Low-pass <output id="noiseLpOut"></output></label><input type="range" id="noiseLp" min="0" max="100" step="1" aria-label="Noise low-pass cutoff"></div>
+    <div class="control"><label for="decay">Decay <output id="decayOut"></output></label><input type="range" id="decay" min="0.08" max="2.4" step="0.01"></div>
+    <div class="control"><label for="tone">Tone <output id="toneOut"></output></label><input type="range" id="tone" min="0" max="100" step="1"></div>
+    <div class="control"><label for="texture">Texture <output id="textureOut"></output></label><input type="range" id="texture" min="0" max="100" step="1"></div>
+    <div class="control"><label for="attack">Attack <output id="attackOut"></output></label><input type="range" id="attack" min="0" max="140" step="1"></div>
+    <div class="control"><label for="level">Level <output id="levelOut"></output></label><input type="range" id="level" min="0" max="100" step="1"></div>
+  </div>
+  <p class="hint" id="paramHint"></p>
+  <p class="hint hidden" id="noiseFilterWarning" role="status">High-pass is at or above low-pass: much of the noise will be filtered out.</p>
+  <div class="preview-actions"><button class="primary" id="preview" type="button">▶ Preview voice</button><button id="variation" type="button">↻ New texture variation</button><button id="wav" type="button">↓ Export mono WAV</button></div>
+  <div class="state" id="renderInfo" aria-live="polite">44,100 Hz · 16-bit mono WAV · deterministic render (with saved seed)</div>
+</section>
+<section class="panel" aria-labelledby="library-title">
+  <h2 id="library-title">Sounds and presets</h2>
+  <div class="field"><label for="presetSelect">Sound library (for selected voice)</label><select id="presetSelect"></select></div>
+  <div class="field"><label for="soundName">Sound name</label><input id="soundName" type="text" maxlength="70" placeholder="Name your sound" autocomplete="off"></div>
+  <div class="library-actions">
+    <button id="saveNew" class="primary" type="button">Save new sound</button>
+    <button id="updatePreset" type="button">Update saved sound</button>
+    <button id="deletePreset" type="button">Delete saved sound</button>
+    <button id="exportPreset" type="button">Export preset JSON</button>
+  </div>
+  <div class="sep"></div>
+  <h3>Portable sound library</h3>
+  <p class="muted">Saved custom sounds are stored in this browser where permitted. Export your library to keep a backup or move it to another computer. Older Noise presets load with default high-pass and low-pass filters.</p>
+  <div class="library-actions"><button id="exportLibrary" type="button">↓ Backup library JSON</button><button id="importButton" type="button">↑ Import preset / library</button></div>
+  <input class="sr-only" type="file" id="importFile" accept=".json,application/json" aria-label="Import sound preset or sound library JSON">
+  <p class="compact" id="libraryCount">24 factory sounds · 0 custom sounds</p>
+  <div class="state" id="persistenceStatus">Checking local storage…</div>
+  <div class="sep"></div>
+  <h3>Use your sounds</h3>
+  <p class="muted">To reuse a rendered sound in the existing Polygon sequencer, export its WAV and import that sample through Polygon’s current sample controls. No automatic integration or modification is performed.</p>
+  <div class="status" id="status" role="status" aria-live="polite">Ready.</div>
+</section>
+</div>
+<footer class="footer"><strong>Prototype boundary:</strong> This is a separate four-voice experimental percussion synthesizer, not a new version of the Polygon sequencer. There is no network use, third-party code, automatic update, or change to existing project files. Sounds render to 44.1 kHz 16-bit <strong>mono</strong> WAV. Presets are editable JSON; a WAV is audio, not an editable synthesis preset. Factory presets are immutable. Active kit assignments are temporary; save sounds individually. Backup custom sounds before clearing browser data. Recommended first use: Windows Chrome or Edge.</footer>
+</main>
+<script>
+'use strict';
+(function () {
+  const SR=44100, SCHEMA='polygon-sound-preset-v1', BANK_SCHEMA='polygon-sound-bank-v1';
+  const STORE='polygon_sound_lab_v0_1_custom_presets';
+  const ENGINES={
+    sub:{name:'Sub Pulse',color:'#7daaf5',summary:'Low-frequency impacts, bent bass pulses and vibrating subs.',hint:'Tone adds harmonics; Texture increases pitch bend and the short transient.'},
+    metal:{name:'Metallic',color:'#ebbd83',summary:'Unstable bells, clangs and machine-like FM strikes.',hint:'Tone changes inharmonic ratios; Texture increases frequency modulation.'},
+    noise:{name:'Noise',color:'#9ed8b2',summary:'Static bursts, dust, cracks and filtered atmospheric attacks.',hint:'Tone changes noise character, Texture adds grit and crackle. High-pass removes lows; Low-pass removes highs. The two cutoffs can cross for extremely thin textures.'},
+    organic:{name:'Organic',color:'#c5a9f0',summary:'Hollow wood, wet membranes and elastic resonances.',hint:'Tone changes resonant modes; Texture adds motion and grain.'}
+  };
+  // Legacy Noise 'pitch' remains in v1 JSON presets for compatibility, but is not
+  // used to generate the Noise signal. New HPF/LPF cutoffs are stored in hpfHz/lpfHz.
+  const KEYS=['pitch','decay','tone','texture','attack','level'];
+  const NOISE_HP_DEFAULT=25, NOISE_LP_DEFAULT=14000;
+  const FILTER_MIN=20,FILTER_MAX=18000;
+  const hzFromPosition=v=>Math.round(FILTER_MIN*Math.pow(FILTER_MAX/FILTER_MIN, Number(v)/100));
+  const positionFromHz=v=>100*Math.log(clamp(v,FILTER_MIN,FILTER_MAX)/FILTER_MIN)/Math.log(FILTER_MAX/FILTER_MIN);
+  const filterLabel=hz=>hz<1000?`${Math.round(hz)} Hz`:`${(hz/1000).toFixed(hz<10000?2:1)} kHz`;
+  const getNoiseCutoffs=p=>({hpfHz:Number.isFinite(p.hpfHz)?clamp(p.hpfHz,FILTER_MIN,FILTER_MAX):NOISE_HP_DEFAULT,
+                                lpfHz:Number.isFinite(p.lpfHz)?clamp(p.lpfHz,FILTER_MIN,FILTER_MAX):NOISE_LP_DEFAULT});
+  const LIMITS={pitch:[35,880],decay:[.08,2.4],tone:[0,100],texture:[0,100],attack:[0,140],level:[0,100]};
+  // Pitch in Hz, decay in seconds, tone/texture/level in percent, attack in milliseconds.
+  const FACTORY_ROWS={
+    sub:[
+      ['Gravitation',58,.78,20,36,1,83],['Quasar Thud',47,1.08,39,81,1,82],
+      ['Bent Sub',84,.46,46,92,0,70],['Soft Impact',73,.28,10,16,4,75],
+      ['Rubber Pulse',108,.63,66,55,2,68],['Deep Current',40,1.64,25,27,26,80]],
+    metal:[
+      ['Distant Bell',326,1.36,38,44,2,76],['Alloy Spark',522,.42,77,89,0,68],
+      ['Machine Tooth',171,.50,26,93,0,76],['Ice Chime',738,1.82,60,28,3,67],
+      ['Rust Plate',114,1.14,83,72,4,78],['Glass Engine',418,.85,52,96,10,62]],
+    noise:[
+      ['Ion Spray',282,.38,83,92,0,67],['Static Stitch',108,.19,67,73,0,67],
+      ['Sand Blast',73,.72,30,100,3,79],['Tape Spit',438,.24,46,57,1,71],
+      ['Wind Crack',168,1.26,17,61,13,77],['Dust Particle',671,.12,89,34,0,64]],
+    organic:[
+      ['Hollow Seed',189,.60,24,34,1,84],['Wet Wood',117,.83,61,62,2,80],
+      ['Membrane Drift',94,1.60,27,72,28,74],['Liquid Knock',304,.32,67,85,0,68],
+      ['Elastic Twig',420,.19,37,58,0,72],['Waterstone',237,1.15,84,90,16,75]]
+  };
+  const FACTORY=[];
+  for (const [engine,rows] of Object.entries(FACTORY_ROWS)) rows.forEach((r,index)=>{
+    const params={pitch:r[1],decay:r[2],tone:r[3],texture:r[4],attack:r[5],level:r[6]};
+    if(engine==='noise')Object.assign(params,{hpfHz:NOISE_HP_DEFAULT,lpfHz:NOISE_LP_DEFAULT});
+    FACTORY.push({schema:SCHEMA,id:`factory-${engine}-${index+1}`,name:r[0],engine,params,seed:1000+FACTORY.length*271,kind:'factory'});
+  });
+  const $=id=>document.getElementById(id);
+  const clamp=(v,lo,hi)=>Math.min(hi,Math.max(lo,v));
+  const copy=x=>JSON.parse(JSON.stringify(x));
+  const randSeed=()=>Math.floor(Math.random()*2147483646)+1;
+  function renderSound(engine,params,seed){
+    if (!ENGINES[engine]) throw new Error('Unknown sound engine');
+    const p={}; for(const k of KEYS){if(!Number.isFinite(params[k])) throw new Error('Nonfinite parameter: '+k);p[k]=clamp(Number(params[k]),...LIMITS[k]);}
+    const pitch=p.pitch, decay=p.decay, tone=p.tone/100, texture=p.texture/100, attack=p.attack/1000;
+    const {hpfHz,lpfHz}=engine==='noise'?getNoiseCutoffs(params):{hpfHz:0,lpfHz:0};
+    // Cascaded first-order digital filters (~12 dB/octave) applied after *all*
+    // Noise components are mixed. Cutoffs are independent of oscillator pitch.
+    const hpAlpha=engine==='noise'?1-Math.exp(-2*Math.PI*hpfHz/SR):0;
+    const lpAlpha=engine==='noise'?1-Math.exp(-2*Math.PI*lpfHz/SR):0;
+    const duration=clamp(attack+decay+0.07,0.16,3.1);
+    const n=Math.round(duration*SR), data=new Float32Array(n);
+    let random=(seed|0)||1, phase=0, smooth=0, prevLow=0, peak=0;
+    let hpLow1=0,hpLow2=0,lpLow1=0,lpLow2=0;
+    function rnd(){random^=random<<13;random^=random>>>17;random^=random<<5;return ((random>>>0)/4294967295)*2-1;}
+    for(let i=0;i<n;i++){
+      const t=i/SR, d=Math.max(0,t-attack), run=Math.max(0,1-d/decay);
+      let env=Math.exp(-6.9*d/decay)*Math.min(1,t/Math.max(0.0015,attack));
+      if(t<attack) env=Math.min(1,t/Math.max(0.0015,attack));
+      let s=0;
+      if(engine==='sub'){
+        const f=pitch*(1+texture*5.7*Math.exp(-t*31));phase+=2*Math.PI*f/SR;
+        s=(.92-.24*tone)*Math.sin(phase)+tone*.34*Math.sin(2*phase)+tone*.14*Math.sin(3.02*phase);
+        s+=rnd()*texture*.45*Math.exp(-t*85);
+      }else if(engine==='metal'){
+        const ratio=1.31+tone*5.7, idx=(.3+texture*9)*Math.exp(-t*(2.2+4*tone));
+        s=.74*Math.sin(2*Math.PI*pitch*t+idx*Math.sin(2*Math.PI*pitch*ratio*t));
+        s+=.25*Math.sin(2*Math.PI*pitch*(2.13+tone*.77)*t)*Math.exp(-t*8/(decay+.2));
+        s+=rnd()*.09*texture*Math.exp(-t*40);
+      }else if(engine==='noise'){
+        const raw=rnd(), cutoff=clamp(180+tone*12900+pitch*.8,80,18000);
+        const a=1-Math.exp(-2*Math.PI*cutoff/SR);smooth+=a*(raw-smooth);
+        const high=raw-smooth, blend=(tone*.78+.08);
+        const grit=texture*(rnd()*.24+rnd()*.27);
+        s=(smooth*(1-blend)+high*blend)*1.3+grit;
+        s+=.15*(1-texture)*rnd()*Math.exp(-t*14);
+        // HPF followed by LPF: filter the entire percussion signal, including grit.
+        hpLow1+=hpAlpha*(s-hpLow1);
+        const high1=s-hpLow1;
+        hpLow2+=hpAlpha*(high1-hpLow2);
+        const high2=high1-hpLow2;
+        lpLow1+=lpAlpha*(high2-lpLow1);
+        lpLow2+=lpAlpha*(lpLow1-lpLow2);
+        s=lpLow2;
+      }else{
+        const wobble=texture*.032*Math.sin(2*Math.PI*(2.2+tone*6)*t)*Math.exp(-t*2);
+        const x=2*Math.PI*pitch*(t+wobble/(Math.max(1,pitch)));
+        s=.52*Math.sin(x)+(.26+.12*tone)*Math.sin(x*(1.47+tone*.4)) *Math.exp(-t*1.8/(decay+.1));
+        s+=(.20+.18*texture)*Math.sin(x*(2.19+texture*.53))*Math.exp(-t*3.1/(decay+.1));
+        const noise=rnd();prevLow=prevLow*.94+noise*.06;
+        s+=texture*.33*(noise*.25+prevLow*.75)*Math.exp(-t*17);
+      }
+      const y=Math.tanh(s*1.22)*env;
+      data[i]=y; peak=Math.max(peak,Math.abs(y));
+    }
+    // A narrow band must become quieter, not normalized back to full loudness.
+    const scale=peak>1e-7 ? (engine==='noise'?Math.min(.87/peak,1.6):.87/peak)*(p.level/100) : 0;
+    for(let i=0;i<n;i++) data[i]*=scale;
+    return data;
+  }
+  function wavBlob(samples){
+    const len=samples.length, buffer=new ArrayBuffer(44+len*2), v=new DataView(buffer);
+    function str(off,s){for(let i=0;i<s.length;i++)v.setUint8(off+i,s.charCodeAt(i));}
+    str(0,'RIFF');v.setUint32(4,36+len*2,true);str(8,'WAVE');str(12,'fmt ');
+    v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+    v.setUint32(24,SR,true);v.setUint32(28,SR*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+    str(36,'data');v.setUint32(40,len*2,true);
+    for(let i=0;i<len;i++){let s=clamp(samples[i],-1,1);v.setInt16(44+i*2,s<0?Math.round(s*32768):Math.round(s*32767),true);}
+    return new Blob([buffer],{type:'audio/wav'});
+  }
+  function cleanName(name){return String(name||'').replace(/[\u0000-\u001f\u007f]/g,' ').trim().slice(0,70);}
+  function validatePreset(obj){
+    if(!obj||typeof obj!=='object'||obj.schema!==SCHEMA||!ENGINES[obj.engine]||!obj.params||typeof obj.params!=='object')throw new Error('Unsupported or invalid preset');
+    const name=cleanName(obj.name);if(!name)throw new Error('Sound name is required');
+    const params={};
+    for(const k of KEYS){if(typeof obj.params[k]!=='number'||!Number.isFinite(obj.params[k])||obj.params[k]<LIMITS[k][0]||obj.params[k]>LIMITS[k][1])throw new Error('Invalid '+k+' in preset');params[k]=obj.params[k];}
+    if(obj.engine==='noise'){
+      for(const [key,defaultValue] of [['hpfHz',NOISE_HP_DEFAULT],['lpfHz',NOISE_LP_DEFAULT]]){
+        const value=Object.prototype.hasOwnProperty.call(obj.params,key)?obj.params[key]:defaultValue;
+        if(typeof value!=='number'||!Number.isFinite(value)||value<FILTER_MIN||value>FILTER_MAX)throw new Error('Invalid '+key+' in preset');
+        params[key]=value;
+      }
+    }
+    if(!Number.isSafeInteger(obj.seed)||obj.seed<1||obj.seed>2147483647)throw new Error('Invalid sound seed');
+    return {schema:SCHEMA,id:typeof obj.id==='string'?obj.id.slice(0,120):'',name,engine:obj.engine,params,seed:obj.seed,kind:'custom'};
+  }
+  function newId(){return 'custom-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
+  let storageWorks=false, customs=[];
+  try{localStorage.setItem(STORE+'-check','1');localStorage.removeItem(STORE+'-check');storageWorks=true;const raw=localStorage.getItem(STORE);if(raw){const arr=JSON.parse(raw);if(Array.isArray(arr))customs=arr.slice(0,500).map(validatePreset).map(p=>({...p,id:newId()}));}}
+  catch(e){storageWorks=false;customs=[];}
+  // Identifiers are intentionally regenerated at startup, never trusted from JSON.
+  function persist(){
+    if(!storageWorks)return false;
+    try{localStorage.setItem(STORE,JSON.stringify(customs));return true;}
+    catch(e){storageWorks=false;storageStatus();return false;}
+  }
+  let slots=['sub','metal','noise','organic'].map(e=>copy(FACTORY.find(p=>p.engine===e)));
+  let active=0,selectedId=slots[0].id,ctx=null,playing=[];
+  let sourceIds=slots.map(v=>v.id),dirty=[false,false,false,false];
+  function flash(message){$('status').textContent=message;}
+  function storageStatus(){const e=$('persistenceStatus');e.textContent=storageWorks?'Browser saving available. Back up custom sounds as JSON regularly.':'Browser storage unavailable. Custom sounds stay only until this page closes; export a library backup now.';e.className='state'+(storageWorks?'':' warn');}
+  function displayValues(){
+    const p=slots[active].params;
+    for(const k of KEYS){$(k).value=p[k];const val=p[k];$(k+'Out').textContent=k==='pitch'?val+' Hz':k==='decay'?val.toFixed(2)+' s':k==='attack'?val+' ms':val+'%';}
+    if(slots[active].engine==='noise'){
+      const {hpfHz,lpfHz}=getNoiseCutoffs(p);
+      $('noiseHp').value=positionFromHz(hpfHz);$('noiseLp').value=positionFromHz(lpfHz);
+      $('noiseHpOut').textContent=filterLabel(hpfHz);$('noiseLpOut').textContent=filterLabel(lpfHz);
+      $('noiseFilterWarning').classList.toggle('hidden',hpfHz<lpfHz);
+    }
+  }
+  function selectPresetOptions(){
+    const v=slots[active],sel=$('presetSelect');sel.replaceChildren();
+    const g1=document.createElement('optgroup');g1.label='Factory sounds';
+    const g2=document.createElement('optgroup');g2.label='My saved sounds';
+    for(const p of FACTORY.filter(x=>x.engine===v.engine)){const o=document.createElement('option');o.value=p.id;o.textContent=p.name;g1.append(o);}
+    for(const p of customs.filter(x=>x.engine===v.engine)){const o=document.createElement('option');o.value=p.id;o.textContent=p.name;g2.append(o);}
+    const edit=document.createElement('option');edit.value='-edit-';edit.textContent='— Unsaved edits —';
+    sel.append(g1);if(g2.children.length)sel.append(g2);sel.append(edit);
+    sel.value=dirty[active]?'-edit-':selectedId; if(sel.value!==(dirty[active]?'-edit-':selectedId))sel.value='-edit-';
+    $('libraryCount').textContent=`${FACTORY.length} factory sounds · ${customs.length} custom sound${customs.length===1?'':'s'}`;
+    const selected=customs.find(p=>p.id===selectedId);
+    $('updatePreset').disabled=!selected;
+    $('deletePreset').disabled=!selected;
+  }
+  function drawWave(){
+    const canvas=$('waveCanvas'),c=canvas.getContext('2d');if(!c)return;
+    const w=canvas.width,h=canvas.height,v=slots[active],samples=renderSound(v.engine,v.params,v.seed);
+    c.clearRect(0,0,w,h);c.fillStyle='#0d1622';c.fillRect(0,0,w,h);
+    c.strokeStyle='#395773';c.lineWidth=2;c.beginPath();c.moveTo(0,h/2);c.lineTo(w,h/2);c.stroke();
+    c.strokeStyle=ENGINES[v.engine].color;c.lineWidth=2;c.beginPath();
+    for(let x=0;x<w;x++){const b=Math.floor(x*samples.length/w),end=Math.max(b+1,Math.floor((x+1)*samples.length/w));let hi=-1,lo=1;
+      for(let i=b;i<end;i++){hi=Math.max(hi,samples[i]);lo=Math.min(lo,samples[i]);}
+      c.moveTo(x,h/2-hi*(h*.44));c.lineTo(x,h/2-lo*(h*.44));}
+    c.stroke();
+    const peak=samples.reduce((m,s)=>Math.max(m,Math.abs(s)),0);
+    $('renderInfo').textContent=`Duration ${(samples.length/SR).toFixed(2)} s · Peak ${(peak*100).toFixed(1)}% · Seed ${v.seed} · 44,100 Hz / mono`;
+  }
+  function renderCards(){const root=$('voiceCards');root.replaceChildren();
+    slots.forEach((v,i)=>{
+      const article=document.createElement('article');article.className='voice'+(i===active?' active':'');
+      const head=document.createElement('div');head.className='voice-head';
+      const marker=document.createElement('span');marker.className='mark';marker.style.background=ENGINES[v.engine].color;marker.setAttribute('aria-hidden','true');
+      const title=document.createElement('div');const name=document.createElement('p');name.className='vname';name.textContent=`${i+1}. ${ENGINES[v.engine].name}`;
+      const label=document.createElement('p');label.className='vlabel';label.textContent=v.engine==='sub'?'Pulse / bass':v.engine==='metal'?'FM / resonance':v.engine==='noise'?'Filtered textures':'Elastic / modal';title.append(name,label);head.append(marker,title);
+      const assigned=document.createElement('p');assigned.className='assignment';assigned.title=v.name;assigned.textContent=v.name;
+      const actions=document.createElement('div');actions.className='voice-actions';
+      const edit=document.createElement('button');edit.type='button';edit.className='edit-btn';edit.textContent='Edit';edit.setAttribute('aria-label',`Edit voice ${i+1} ${v.engine}`);edit.addEventListener('click',()=>chooseVoice(i));
+      const play=document.createElement('button');play.type='button';play.className='pad-btn';play.textContent='▶ Play';play.setAttribute('aria-label',`Play voice ${i+1} ${v.engine}`);play.addEventListener('click',()=>playVoice(i));
+      actions.append(edit,play);article.append(head,assigned,actions);root.append(article);
+    });
+  }
+  function chooseVoice(index){active=index;selectedId=sourceIds[active];
+    const v=slots[active];$('editor-title').textContent=`Voice ${active+1} — ${ENGINES[v.engine].name}`;$('engineBadge').textContent=`VOICE ${active+1}`;
+    $('engineSummary').textContent=ENGINES[v.engine].summary;$('paramHint').textContent=ENGINES[v.engine].hint;
+    $('soundName').value=v.name;
+    const noise=v.engine==='noise';
+    $('pitchGroup').classList.toggle('hidden',noise);
+    $('noiseHpGroup').classList.toggle('hidden',!noise);
+    $('noiseLpGroup').classList.toggle('hidden',!noise);
+    $('noiseFilterWarning').classList.toggle('hidden',!noise);
+    displayValues();selectPresetOptions();drawWave();renderCards();
+  }
+  function onControl(k){slots[active].params[k]=Number($(k).value);dirty[active]=true;displayValues();selectPresetOptions();drawWave();}
+  for(const k of KEYS)$(k).addEventListener('input',()=>onControl(k));
+  for(const [slider,key] of [['noiseHp','hpfHz'],['noiseLp','lpfHz']]){
+    $(slider).addEventListener('input',()=>{
+      if(slots[active].engine!=='noise')return;
+      slots[active].params[key]=hzFromPosition($(slider).value);
+      dirty[active]=true;displayValues();selectPresetOptions();drawWave();
+    });
+  }
+  $('soundName').addEventListener('input',()=>{dirty[active]=true;selectPresetOptions();});
+  $('presetSelect').addEventListener('change',()=>{
+    const id=$('presetSelect').value;if(id==='-edit-')return;
+    const p=[...FACTORY,...customs].find(x=>x.id===id);
+    if(!p||p.engine!==slots[active].engine)return;
+    slots[active]=copy(p);sourceIds[active]=id;dirty[active]=false;chooseVoice(active);flash(`Loaded “${p.name}” into voice ${active+1}.`);
+  });
+  function currentAsPreset(id){const obj={schema:SCHEMA,id,name:cleanName($('soundName').value),engine:slots[active].engine,params:copy(slots[active].params),seed:slots[active].seed,kind:'custom'};return validatePreset(obj);}
+  $('saveNew').addEventListener('click',()=>{
+    try{if(customs.length>=500)throw Error('Maximum 500 saved sounds. Export a library backup before removing older sounds.');
+      const p=currentAsPreset(newId());customs.push(p);persist();slots[active]=copy(p);sourceIds[active]=p.id;dirty[active]=false;chooseVoice(active);flash(`Saved “${p.name}”${storageWorks?' in browser storage':' in this session only'}.`);
+    }catch(e){flash(e.message);}
+  });
+  $('updatePreset').addEventListener('click',()=>{
+    try{const index=customs.findIndex(x=>x.id===selectedId);if(index<0)throw Error('Only saved custom sounds can be updated.');
+      const p=currentAsPreset(selectedId);customs[index]=p;persist();slots[active]=copy(p);sourceIds[active]=p.id;dirty[active]=false;chooseVoice(active);flash(`Updated “${p.name}”.`);
+    }catch(e){flash(e.message);}
+  });
+  $('deletePreset').addEventListener('click',()=>{
+    const index=customs.findIndex(x=>x.id===selectedId);if(index<0)return;
+    const name=customs[index].name;if(!confirm(`Delete custom sound “${name}” from your local library? Export a backup first if you want to keep it.`))return;
+    customs.splice(index,1);persist();const fallback=FACTORY.find(p=>p.engine===slots[active].engine);slots[active]=copy(fallback);sourceIds[active]=fallback.id;dirty[active]=false;chooseVoice(active);flash(`Deleted “${name}” from the custom library.`);
+  });
+  $('variation').addEventListener('click',()=>{slots[active].seed=randSeed();dirty[active]=true;selectPresetOptions();drawWave();flash('New deterministic texture seed. Save sound to preserve it.');});
+  function fileStem(s){return cleanName(s).normalize('NFKD').replace(/[^A-Za-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60)||'polygon-sound';}
+  function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),20000);}
+  function jsonDownload(obj,name){download(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}),name);}
+  $('exportPreset').addEventListener('click',()=>{
+    try{const p=currentAsPreset('');jsonDownload(p,`Polygon-${fileStem(p.name)}-preset.json`);flash(`Exported editable preset “${p.name}”.`);}
+    catch(e){flash(e.message);}
+  });
+  $('exportLibrary').addEventListener('click',()=>{
+    jsonDownload({schema:BANK_SCHEMA,version:1,sounds:customs.map(({id,kind,...p})=>p)},'Polygon-Sound-Lab-Custom-Library.json');
+    flash(`Exported ${customs.length} custom sounds as a portable library backup.`);
+  });
+  $('importButton').addEventListener('click',()=>$('importFile').click());
+  $('importFile').addEventListener('change',async function(){const file=this.files&&this.files[0];this.value='';if(!file)return;
+    try{
+      if(file.size>2_000_000)throw Error('JSON file is too large (maximum 2 MB).');
+      const obj=JSON.parse(await file.text());let imported;
+      if(obj&&obj.schema===BANK_SCHEMA&&obj.version===1&&Array.isArray(obj.sounds)) imported=obj.sounds;
+      else imported=[obj];
+      if(!imported.length)throw Error('This library contains no presets.');
+      if(customs.length+imported.length>500)throw Error('Library limit of 500 custom sounds would be exceeded.');
+      const clean=imported.map(validatePreset).map(p=>({...p,id:newId()}));
+      customs.push(...clean);persist();const first=clean.find(p=>p.engine===slots[active].engine);
+      if(first){slots[active]=copy(first);sourceIds[active]=first.id;dirty[active]=false;}
+      chooseVoice(active);flash(`Imported ${clean.length} sound${clean.length===1?'':'s'}${storageWorks?' into browser storage':' for this session only'}.`);
+    }catch(e){flash('Import rejected: '+e.message);}
+  });
+  function getAudio(){if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)throw Error('Web Audio playback is unavailable in this browser.');ctx=new C();}return ctx;}
+  function makeSource(index,a){
+    const v=slots[index],samples=renderSound(v.engine,v.params,v.seed),buf=a.createBuffer(1,samples.length,SR);
+    buf.copyToChannel(samples,0);const source=a.createBufferSource();source.buffer=buf;source.connect(a.destination);
+    source.onended=()=>{playing=playing.filter(x=>x!==source);};playing.push(source);return source;
+  }
+  async function playVoice(index){
+    try{const a=getAudio();await a.resume();makeSource(index,a).start(a.currentTime+.01);
+      $('audioStatus').textContent=`Playing voice ${index+1}: ${slots[index].name}`;
+    }catch(e){$('audioStatus').textContent='Playback error: '+e.message;flash('Cannot play sound: '+e.message);}
+  }
+  $('preview').addEventListener('click',()=>playVoice(active));
+  $('playAll').addEventListener('click',async()=>{
+    try{const a=getAudio();await a.resume();const sources=slots.map((_,i)=>makeSource(i,a));
+      const when=a.currentTime+.04;sources.forEach(source=>source.start(when));
+      $('audioStatus').textContent='Playing all four voices (synchronised start)';
+    }catch(e){$('audioStatus').textContent='Playback error: '+e.message;flash('Cannot play all voices: '+e.message);}
+  });
+  $('stopAll').addEventListener('click',()=>{for(const s of playing){try{s.stop();}catch(e){}}playing=[];$('audioStatus').textContent='Playback stopped.';});
+  $('wav').addEventListener('click',()=>{
+    try{const v=slots[active],data=renderSound(v.engine,v.params,v.seed),blob=wavBlob(data);
+      download(blob,`Polygon-${fileStem($('soundName').value||v.name)}.wav`);flash(`Exported ${(data.length/SR).toFixed(2)} s mono WAV from voice ${active+1}.`);
+    }catch(e){flash('WAV export failed: '+e.message);}
+  });
+  storageStatus();chooseVoice(0);
+  // Read-only test interface allows deterministic, offline QA of the exact user-facing DSP.
+  Object.defineProperty(window,'PolygonSoundLabQA',{value:Object.freeze({
+    factoryCount:()=>FACTORY.length, factoryNames:()=>FACTORY.map(p=>p.name),
+    render:(engine,params,seed)=>renderSound(engine,params,seed),
+    defaults:()=>copy(slots),wavBlob:s=>wavBlob(s),
+    customCount:()=>customs.length, sampleRate:SR
+  }),writable:false,configurable:false});
+})();
+</script>
+</body>
+</html>
