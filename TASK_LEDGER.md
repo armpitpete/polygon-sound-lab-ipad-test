@@ -15,7 +15,7 @@
 | SL-006 | Recover historical detailed Polygon v4.8.6 27-group suite | BLOCKED | Only summary survives in current evidence; precise old test definitions not found | Recover suite if available; otherwise use fresh tests without claiming exact replay |
 | SL-007 | Obtain human acceptance of integrated Polygon v4.8.6 | NOT ATTEMPTED | Not conferred by standalone Sound Lab PASS; needs a separate listening/UX decision | Present working integrated candidate when requested |
 | SL-008 | Obtain approval for further Sound Lab code/DSP changes | DEFERRED | v0.1.7 frozen; no change requested | Develop isolated new version only after explicit scope |
-| SL-009 | Create durable execution governance records | IN PROGRESS | [Execution contract](PROJECT_EXECUTION_CONTRACT.md) and [AGENTS](AGENTS.md) created; supporting files added during this change | Verify files, then mark PASS with commit evidence |
+| SL-009 | Create durable execution governance records | PASS | [Contract](PROJECT_EXECUTION_CONTRACT.md), [AGENTS](AGENTS.md), [state](PROJECT_STATE.md), [acceptance](ACCEPTANCE.md), [ledger](TASK_LEDGER.md), and [README links](README.md) committed; fetched to confirm persistence | Maintain records as work changes |
 
 ## Reporting discipline
 Never count SL tasks as additional completed tasks in Polygon SEQ's 1,024-task ledger unless the underlying master task ID and acceptance evidence actually match. Do not convert unrelated technical checks into completed product features. Do not call an incomplete ledger item PASS because a document was written about it.
